@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smart Kitchen Assistant</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+
+<header>
+    <h1>🍽️ Smart Kitchen</h1>
+    <p>Find recipes with what you already have</p>
+</header>
+
+<section class="search-box">
+    <input type="text" id="ingredients" placeholder="Enter ingredients (e.g. tomato, cheese)">
+    <button onclick="getRecipes()">Search</button>
+</section>
+
+<div id="loading" class="loading">Fetching recipes...</div>
+
+<section id="recipes"></section>
+
+<script src="script.js"></script>
+</body>
+</html>
