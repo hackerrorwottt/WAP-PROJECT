@@ -1,30 +1,266 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Kitchen Assistant</title>
+<html lang="en" data-theme="dark">
 
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="index.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Kitchen Assistant</title>
+
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&display=swap"
+        rel="stylesheet">
+
+  
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="styles.css">
 </head>
 
-<body>
+<body class="custom-scrollbar">
 
-<header>
-    <h1>🍽️ Smart Kitchen</h1>
-    <p>Find recipes with what you already have</p>
-</header>
+   
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
 
-<section class="search-box">
-    <input type="text" id="ingredients" placeholder="Enter ingredients (e.g. tomato, cheese)">
-    <button onclick="getRecipes()">Search</button>
-</section>
+    
+    <nav class="glass-nav">
+        <div class="nav-brand">
+            <i class="ph-fill ph-cooking-pot"></i>
+            <span>NexBite</span>
+        </div>
+        <div class="nav-search-container hidden-mobile">
+            <div class="search-bar">
+                <i class="ph ph-magnifying-glass"></i>
+                <input type="text" id="nav-search-input" placeholder="Search for recipes, ingredients...">
+                <button id="voice-search-btn" class="icon-btn tooltip" data-tooltip="Voice Search">
+                    <i class="ph ph-microphone"></i>
+                </button>
+            </div>
+            <div class="live-suggestions" id="live-suggestions"></div>
+        </div>
+        <div class="nav-actions">
+            <button id="btn-what-to-cook" class="btn-glow tooltip" data-tooltip="AI Suggestions">What can I
+                cook?</button>
+            <button id="btn-add-recipe" class="icon-btn tooltip" data-tooltip="Add Custom Recipe"><i
+                    class="ph ph-plus-circle"></i></button>
+            <button id="btn-favorites" class="icon-btn tooltip" data-tooltip="Bookmarks"><i
+                    class="ph ph-bookmark-simple"></i></button>
+            <button id="btn-theme" class="icon-btn tooltip" data-tooltip="Toggle Theme"><i
+                    class="ph ph-sun"></i></button>
+            <button id="btn-api-key" class="icon-btn tooltip" data-tooltip="API Settings"><i
+                    class="ph ph-key"></i></button>
+        </div>
+    </nav>
 
-<div id="loading" class="loading">Fetching recipes...</div>
 
-<section id="recipes"></section>
 
-<script src="script.js"></script>
+   
+    <div class="mobile-search-bar hidden-desktop">
+        <div class="search-bar">
+            <i class="ph ph-magnifying-glass"></i>
+            <input type="text" id="mobile-search-input" placeholder="Search recipes...">
+            <button id="mobile-voice-search-btn" class="icon-btn">
+                <i class="ph ph-microphone"></i>
+            </button>
+        </div>
+    </div>
+
+    
+    <header class="hero">
+        <div class="hero-content">
+            <div class="badge-new">Explore the Future of Taste</div>
+            <h1 class="glitch" data-text="Discover Culinary Magic">Discover Culinary Magic</h1>
+            <p>Explore thousands of recipes, generate ideas from your fridge, and save your favorites in an addictive, premium experience crafted for food lovers.</p>
+
+            <div class="hero-actions">
+                <button class="btn-glow large" onclick="document.getElementById('category-filters').scrollIntoView({behavior: 'smooth'})">Get Started</button>
+                <div class="hero-stats">
+                    <div class="stat"><span class="highlight">10k+</span> Recipes</div>
+                    <div class="stat"><span class="highlight">AI</span> Powered</div>
+                    <div class="stat"><span class="highlight">Offline</span> Ready</div>
+                </div>
+            </div>
+        </div>
+        <div class="hero-graphics">
+            
+            <div class="floating-card c1">
+                <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=400&q=80" alt="Food">
+            </div>
+            <div class="floating-card c2">
+                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400&q=80" alt="Food">
+            </div>
+            <div class="floating-card c3">
+                <img src="https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=400&q=80" alt="Food">
+            </div>
+        </div>
+    </header>
+
+    
+    <section class="filters-section wrapper">
+        <div class="categories-scroll" id="category-filters">
+            <button class="category-btn active" data-category="all">🔥 Trending</button>
+            <button class="category-btn" data-category="vegetarian">🥗 Vegetarian</button>
+            <button class="category-btn" data-category="vegan">🌱 Vegan</button>
+            <button class="category-btn" data-category="dessert">🍰 Desserts</button>
+            <button class="category-btn" data-category="quick">⏱️ Quick Meals (30m)</button>
+            <button class="category-btn" data-category="breakfast">🍳 Breakfast</button>
+            <button class="category-btn" data-category="custom">👤 My Recipes</button>
+        </div>
+        <div class="advanced-filters hidden" id="advanced-filters">
+            
+        </div>
+    </section>
+
+   
+    <main class="wrapper">
+        <div class="section-headers">
+            <h2 id="current-view-title" class="gradient-text">Trending Now</h2>
+            <div id="recipe-count"></div>
+        </div>
+
+        
+        <div class="masonry-grid" id="recipe-grid">
+            
+        </div>
+
+        <div id="loading-spinner" class="loader-container">
+            <div class="spinner"></div>
+            <p>Cooking up recipes...</p>
+        </div>
+    </main>
+
+    
+    <div id="modal-recipe" class="modal-overlay">
+        <div class="modal-content glass-panel recipe-detail-modal">
+            <button class="modal-close"><i class="ph ph-x"></i></button>
+            <div class="recipe-layout">
+                <div class="recipe-visuals">
+                    <div class="recipe-image-container">
+                        <img id="detail-image" src="" alt="Recipe Image">
+                        <button id="detail-bookmark" class="floating-bookmark"><i
+                                class="ph ph-bookmark-simple"></i></button>
+                    </div>
+                    <div class="nutrition-chart-container">
+                        <h3>Nutrition Profile</h3>
+                        <canvas id="nutritionChart"></canvas>
+                    </div>
+                   
+                    <div id="custom-recipe-actions" class="hidden">
+                        <button id="btn-edit-recipe" class="btn-secondary">Edit Recipe</button>
+                        <button id="btn-delete-recipe" class="btn-danger">Delete</button>
+                    </div>
+                </div>
+                <div class="recipe-info">
+                    <h2 id="detail-title">Recipe Title</h2>
+                    <div class="recipe-meta">
+                        <span id="detail-time"><i class="ph ph-clock"></i> -- min</span>
+                        <span id="detail-servings"><i class="ph ph-users"></i> -- servings</span>
+                        <span id="detail-health"><i class="ph ph-heartbeat"></i> Health Score: --</span>
+                    </div>
+                    <div class="recipe-tags" id="detail-tags"></div>
+
+                    <div class="ingredients-section">
+                        <h3>Ingredients</h3>
+                        <ul id="detail-ingredients" class="fancy-list"></ul>
+                    </div>
+
+                    <div class="instructions-section">
+                        <h3>Instructions</h3>
+                        <div id="detail-instructions"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="modal-what-to-cook" class="modal-overlay">
+        <div class="modal-content glass-panel small-modal wtc-modal">
+            <button class="modal-close"><i class="ph ph-x"></i></button>
+            <h2 class="gradient-text">What can I cook? <i class="ph-fill ph-magic-wand"></i></h2>
+            <p>Tell the AI what ingredients you have in your fridge.</p>
+            <textarea id="ingredients-input" rows="3" placeholder="e.g. chicken, rice, garlic, onions..."></textarea>
+            <button id="btn-find-by-ingredients" class="btn-glow mt-4">Ask AI</button>
+
+            
+            <div id="ai-response-area" class="hidden mt-4" style="text-align: left;">
+                <div id="ai-loader" class="hidden" style="display: flex; align-items: center; margin-bottom: 10px;">
+                    <div class="spinner" style="width: 25px; height: 25px; margin-bottom: 0;"></div>
+                    <span style="margin-left: 10px; color: var(--accent);">Chef AI is thinking...</span>
+                </div>
+                <div id="ai-output"
+                    style="max-height: 250px; overflow-y: auto; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 8px; font-size: 0.95rem; line-height: 1.6; white-space: pre-wrap;"
+                    class="hidden"></div>
+            </div>
+        </div>
+    </div>
+
+    
+    <div id="modal-add-recipe" class="modal-overlay">
+        <div class="modal-content glass-panel form-modal">
+            <button class="modal-close"><i class="ph ph-x"></i></button>
+            <h2 id="form-modal-title" class="gradient-text">Add Custom Recipe</h2>
+            <form id="recipe-form">
+                <input type="hidden" id="form-recipe-id">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" id="form-title" required placeholder="My Awesome Dish">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Ready In (mins)</label>
+                        <input type="number" id="form-time" required placeholder="30">
+                    </div>
+                    <div class="form-group">
+                        <label>Servings</label>
+                        <input type="number" id="form-servings" required placeholder="2">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="url" id="form-image" placeholder="https://example.com/image.jpg">
+                </div>
+                <div class="form-group">
+                    <label>Ingredients (comma separated)</label>
+                    <textarea id="form-ingredients" rows="3" required placeholder="Flour, Sugar, Eggs..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Instructions</label>
+                    <textarea id="form-instructions" rows="4" required placeholder="Step 1: ..."></textarea>
+                </div>
+                <button type="submit" class="btn-glow mt-4">Save Recipe</button>
+            </form>
+        </div>
+    </div>
+
+    
+    <div id="modal-api-key" class="modal-overlay">
+        <div class="modal-content glass-panel small-modal">
+            <button class="modal-close"><i class="ph ph-x"></i></button>
+            <h2 class="gradient-text">API Settings</h2>
+            <p>This app uses the Spoonacular API. Enter your free API key to unlock live data.</p>
+            <div class="form-group">
+                <input type="text" id="api-key-input" placeholder="Your API Key">
+            </div>
+            <p class="text-small text-muted"><a href="https://spoonacular.com/food-api" target="_blank">Get a free key
+                    here</a></p>
+            <button id="btn-save-api-key" class="btn-glow mt-4">Save</button>
+        </div>
+    </div>
+
+    
+    <div id="toast-container" class="toast-container"></div>
+
+
+
+    <script src="app.js"></script>
 </body>
+
 </html>
