@@ -339,7 +339,7 @@ async function handleAiRecipeGeneration() {
                             content: `I have: ${ingredients}`,
                         },
                     ],
-                    model: "deepseek-ai/DeepSeek-R1-Distill-Qwen-1.5B:nscale",
+                    model: "Qwen/Qwen2.5-1.5B-Instruct:featherless-ai",
                     max_tokens: 500,
                 }),
             }
