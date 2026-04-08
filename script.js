@@ -1,5 +1,5 @@
 // API Config
-const SPOONACULAR_API_KEY = import.meta.env.SPOONACULAR_API_KEY
+const SPOONACULAR_API_KEY = import.meta.env.VITE_SPOONACULAR_API_KEY
 const HF_TOKEN = import.meta.env.VITE_HF_TOKEN
 const USE_DEMO_MODE = true; 
 
