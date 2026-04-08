@@ -121,6 +121,31 @@ function initEventListeners() {
     // AI Chef
     generateAiBtn.addEventListener('click', handleAiRecipeGeneration);
 
+    // AI CTA Scroll listeners
+    const aiCookCta = document.getElementById('ai-cook-cta');
+    const heroAiBtn = document.getElementById('hero-ai-btn');
+    const heroExploreBtn = document.getElementById('hero-explore-btn');
+
+    if (aiCookCta) {
+        aiCookCta.addEventListener('click', () => {
+            document.getElementById('ai-chef')?.scrollIntoView({ behavior: 'smooth' });
+            aiIngredients.focus();
+        });
+    }
+
+    if (heroAiBtn) {
+        heroAiBtn.addEventListener('click', () => {
+            document.getElementById('ai-chef')?.scrollIntoView({ behavior: 'smooth' });
+            aiIngredients.focus();
+        });
+    }
+
+    if (heroExploreBtn) {
+        heroExploreBtn.addEventListener('click', () => {
+            document.getElementById('trending')?.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
     // Modal
     closeModal.addEventListener('click', () => {
         modal.classList.add('hidden');
